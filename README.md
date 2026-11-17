@@ -22,26 +22,44 @@
 
 ## 📸 Screenshots
 
-<p align="center">
-  <img src="assets/player-startup.png" alt="Main player with Cava visualizer" width="88%">
-  <br>
-  <em>True-color TUI controller above a 60 FPS green-to-red Cava visualizer, inside tmux</em>
-</p>
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/player-startup.png" alt="Player on startup" width="100%">
+      <br><sub><b>Startup</b>: idle player, ready for a search</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/player-song-playing.png" alt="Song playing with Cava visualizer" width="100%">
+      <br><sub><b>Now playing</b>: 60 FPS Cava visualizer under the controller</sub>
+    </td>
+  </tr>
+</table>
 
 <details>
-<summary><b>More screenshots: Song Radio and Playlist Manager</b></summary>
+<summary><b>More screenshots: search, options and playlists</b></summary>
 <br>
-<p align="center">
-  <img src="assets/player-options.png" alt="player-options" width="48%">
-  <img src="assets/playlist-manager.png" alt="Queue and playlist manager" width="48%">
-  <img src="assets/playlist-selection.png" alt="Queue and playlist manager" width="48%">
-  <img src="assets/player-song-playing.png" alt="Queue and playlist manager" width="48%">
-  <img src="assets/search-and-pick-song.png" alt="Queue and playlist manager" width="48%">
-  
-</p>
-<p align="center">
-  <em>Left: Song Radio (<code>R</code>) &nbsp;|&nbsp; Right: Queue and playlist manager (<code>L</code> / <code>M</code>)</em>
-</p>
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/search-and-pick-song.png" alt="Search YouTube and pick a song with fzf" width="100%">
+      <br><sub><b>Search</b> (<code>S</code> / <code>A</code>): pick a song with fzf</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/player-options.png" alt="Player options and controls" width="100%">
+      <br><sub><b>Player options</b> and controls</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/playlist-selection.png" alt="Playlist selection menu" width="100%">
+      <br><sub><b>Playlist selection</b> (<code>M</code>)</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/playlist-manager.png" alt="Queue and playlist manager" width="100%">
+      <br><sub><b>Queue and playlist manager</b> (<code>L</code> / <code>M</code>)</sub>
+    </td>
+  </tr>
+</table>
 </details>
 
 ---
