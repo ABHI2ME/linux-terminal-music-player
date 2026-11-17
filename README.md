@@ -23,7 +23,7 @@
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="assets/player-main.png" alt="Main player with Cava visualizer" width="88%">
+  <img src="assets/player-startup.png" alt="Main player with Cava visualizer" width="88%">
   <br>
   <em>True-color TUI controller above a 60 FPS green-to-red Cava visualizer, inside tmux</em>
 </p>
@@ -32,8 +32,12 @@
 <summary><b>More screenshots: Song Radio and Playlist Manager</b></summary>
 <br>
 <p align="center">
-  <img src="assets/song-radio.png" alt="YouTube Music Song Radio picker" width="48%">
+  <img src="assets/player-options.png" alt="player-options" width="48%">
   <img src="assets/playlist-manager.png" alt="Queue and playlist manager" width="48%">
+  <img src="assets/playlist-selection.png" alt="Queue and playlist manager" width="48%">
+  <img src="assets/player-song-playing.png" alt="Queue and playlist manager" width="48%">
+  <img src="assets/search-and-pick-song.png" alt="Queue and playlist manager" width="48%">
+  
 </p>
 <p align="center">
   <em>Left: Song Radio (<code>R</code>) &nbsp;|&nbsp; Right: Queue and playlist manager (<code>L</code> / <code>M</code>)</em>
