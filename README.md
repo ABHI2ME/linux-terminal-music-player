@@ -89,6 +89,14 @@
 
 ## 🚀 Installation
 
+### Fedora (Recommended)
+Clone the repository and run the Fedora installer as your normal user (`sudo` is only requested for installing `dnf` packages and creating `/usr/local/bin` symlinks):
+
+```bash
+git clone [https://github.com/ABHI2ME/linux-terminal-music-player.git](https://github.com/ABHI2ME/linux-terminal-music-player.git)
+cd linux-terminal-music-player
+bash install-fedora.sh
+
 **Supported systems:** Linux Mint (including XFCE), Ubuntu and Debian, i.e. anything that uses `apt`. Run it as your normal user, not as root; `sudo` is requested only for installing packages.
 
 ### One command
