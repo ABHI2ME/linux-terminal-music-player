@@ -20,6 +20,9 @@ python3 -m venv "$HOME/.local/share/music-player/yt-dlp-venv"
 python3 -m venv "$HOME/.local/share/music-player/radio-venv"
 "$HOME/.local/share/music-player/radio-venv/bin/pip" install -U pip ytmusicapi
 
+python3 -m venv "$HOME/.local/share/music-player/youtube-venv"
+"$HOME/.local/share/music-player/youtube-venv/bin/pip" install -U pip google-api-python-client google-auth-oauthlib google-auth-httplib2
+
 # 4. Copy scripts from this repo and make them executable
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cp -f "$SCRIPT_DIR"/bin/* "$HOME/.local/bin/"
