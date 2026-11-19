@@ -247,6 +247,14 @@ Everything works right after installing, except `music-export`, which needs **yo
 
 ---
 
+### Optional: YouTube Playlist Export
+
+To enable exporting local playlists to YouTube, place your personal Google Desktop OAuth `client_secret.json` file at:
+
+```bash
+~/.config/music-player/client_secret.json
+```
+
 ## ⚠️ Disclaimer
 
 This is a personal-use tool. It plays and downloads content through `yt-dlp`, so make sure your use complies with YouTube's Terms of Service and the copyright laws where you live. The exporter only copies video *references* into playlists; it does not upload anything. This project is not affiliated with or endorsed by Google or YouTube.
