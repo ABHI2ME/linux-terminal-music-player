@@ -1,0 +1,129 @@
+#!/usr/bin/env python3
+"""Pick a YouTube Music radio suggestion for the current mpv song.
+
+Run with the Python interpreter in the radio virtual environment.
+"""
+
+import json
+import re
+import socket
+import subprocess
+import sys
+from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
+
+SOCKET = Path("/tmp/abhi-music.sock")
+VIDEO_ID = re.compile(r"^[A-Za-z0-9_-]{11}$")
+
+
+def mpv(*command):
+    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as connection:
+        connection.settimeout(5)
+        connection.connect(str(SOCKET))
+        connection.sendall((json.dumps({"command": list(command)}) + "\n").encode())
+        with connection.makefile("r", encoding="utf-8") as stream:
+            response = json.loads(stream.readline())
+    if response.get("error") != "success":
+        raise RuntimeError(f"mpv: {response.get('error', 'no response')}")
+    return response.get("data")
+
+
+def video_id_from_url(url):
+    parts = urlsplit(url)
+    host = (parts.hostname or "").lower()
+    if host == "youtu.be":
+        candidate = parts.path.lstrip("/").split("/")[0]
+    elif host in ("youtube.com", "www.youtube.com", "m.youtube.com", "music.youtube.com"):
+        if parts.path in ("/watch", "/live"):
+            candidate = parse_qs(parts.query).get("v", [""])[0]
+        elif parts.path.startswith("/shorts/") or parts.path.startswith("/live/"):
+            candidate = parts.path.split("/")[2]
+        else:
+            candidate = ""
+    else:
+        candidate = ""
+    return candidate if VIDEO_ID.fullmatch(candidate) else None
+
+
+def clean(value):
+    return " ".join(str(value or "").split())
+
+
+def suggestions(seed):
+    from ytmusicapi import YTMusic
+
+    response = YTMusic().get_watch_playlist(videoId=seed, limit=25, radio=True)
+    found = []
+    seen = {seed}
+    for track in response.get("tracks", []):
+        vid = track.get("videoId")
+        if not isinstance(vid, str) or not VIDEO_ID.fullmatch(vid) or vid in seen:
+            continue
+        seen.add(vid)
+        artist = ", ".join(clean(a.get("name")) for a in track.get("artists") or [] if isinstance(a, dict))
+        title = clean(track.get("title")) or "Untitled"
+        label = f"{title} — {artist}" if artist else title
+        found.append((label, f"https://www.youtube.com/watch?v={vid}"))
+    return found
+
+
+def choose_song(items):
+    rows = "\n".join(f"{label}\t{url}" for label, url in items) + "\n"
+    result = subprocess.run(
+        ["fzf", "--layout=reverse", "--prompt=Song Radio > ", "--delimiter=\t", "--with-nth=1"],
+        input=rows,
+        text=True,
+        stdout=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode != 0 or "\t" not in result.stdout:
+        return None
+    return tuple(result.stdout.rstrip("\n").rsplit("\t", 1))
+
+
+def main():
+    current = mpv("get_property", "path")
+    seed = video_id_from_url(current if isinstance(current, str) else "")
+    if seed is None:
+        raise RuntimeError("Play a YouTube song first, then press R.")
+
+    print("\n Finding songs like the one playing...\n", file=sys.stderr, flush=True)
+    items = suggestions(seed)
+    if not items:
+        raise RuntimeError("YouTube Music returned no playable suggestions for this song.")
+
+    chosen = choose_song(items)
+    if chosen is None:
+        return
+    label, selected = chosen
+
+    print("\n P) Play now (keep queue)   A) Add to queue   B) Back: ",
+          end="", file=sys.stderr, flush=True)
+    answer = input().strip().lower()
+    if answer == "p":
+        mpv("loadfile", selected, "insert-next")
+        mpv("playlist-next", "weak")
+        print(" Playing selected song.", file=sys.stderr)
+    elif answer == "a":
+        mpv("loadfile", selected, "append-play")
+        print(" Added to queue.", file=sys.stderr)
+    else:
+        return
+    print(f"{selected}\t{label}", flush=True)
+    print(" Press Enter to return to the player...", end="", file=sys.stderr, flush=True)
+    input()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
+    except (OSError, RuntimeError, ValueError, ImportError, subprocess.SubprocessError) as exc:
+        print(f"\n Song Radio: {exc}", file=sys.stderr)
+        try:
+            print(" Press Enter to return...", end="", file=sys.stderr, flush=True)
+            input()
+        except (EOFError, KeyboardInterrupt):
+            pass
+        sys.exit(1)
