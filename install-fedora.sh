@@ -8,7 +8,7 @@ sudo dnf install -y nano tmux cava mpv socat jq fzf python3 python3-pip curl unz
 
 # 2. Install Deno (required by yt-dlp for YouTube JS challenges)
 if ! command -v deno >/dev/null 2>&1 && [[ ! -x "$HOME/.deno/bin/deno" ]]; then
-  curl -fsSL https://deno.land/install.sh | sh
+  curl -fsSL https://deno.land/install.sh | sh -s -- -y
 fi
 
 # 3. Create directories and Python virtual environments
