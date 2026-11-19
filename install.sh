@@ -86,6 +86,7 @@ CAVA_EOF
 fi
 
 # 7. Create global symlinks so 'music' works immediately in any terminal
+[[ -x "$HOME/.deno/bin/deno" ]] && sudo ln -sfn "$HOME/.deno/bin/deno" /usr/local/bin/deno
 sudo ln -sfn "$HOME/.local/bin/music" /usr/local/bin/music
 sudo ln -sfn "$HOME/.local/bin/music-control" /usr/local/bin/music-control
 sudo ln -sfn "$HOME/.local/bin/music-radio" /usr/local/bin/music-radio
