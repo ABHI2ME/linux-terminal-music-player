@@ -93,45 +93,37 @@
 Clone the repository and run the Fedora installer as your normal user (`sudo` is only requested for installing `dnf` packages and creating `/usr/local/bin` symlinks):
 
 ```bash
+sudo dnf install -y git
 git clone [https://github.com/ABHI2ME/linux-terminal-music-player.git](https://github.com/ABHI2ME/linux-terminal-music-player.git)
 cd linux-terminal-music-player
 bash install-fedora.sh
-
-**Supported systems:** Linux Mint (including XFCE), Ubuntu and Debian, i.e. anything that uses `apt`. Run it as your normal user, not as root; `sudo` is requested only for installing packages.
-
-### One command
-
-```bash
-curl -fsSL -o install-music-player.sh https://raw.githubusercontent.com/ABHI2ME/linux-terminal-music-player/main/install-music-player.sh
-bash install-music-player.sh
 ```
 
-### Or with the file
+### Debian / Ubuntu / Linux Mint (Universal Script)
+```bash
+curl -fsSL -o install-abhi-music.sh [https://raw.githubusercontent.com/ABHI2ME/linux-terminal-music-player/main/install-abhi-music.sh](https://raw.githubusercontent.com/ABHI2ME/linux-terminal-music-player/main/install-abhi-music.sh)
+bash install-abhi-music.sh
+```
 
-1. Download `install-music-player.sh` from this repository.
-2. Right-click it, open **Properties → Permissions**, and enable **Allow this file to run as a program**.
-3. Double-click it. It opens itself in a terminal window.
+When installation finishes, run `music` in your terminal.
 
-The installer takes a minute or two. When it finishes, open **Terminal Music Player** from your application menu, or type `music`.
-
-### What the installer does
+### What the Fedora Installer Does
 
 | Step | Details |
 | :--- | :--- |
-| **System packages** | `mpv`, `cava`, `tmux`, `socat`, `jq`, `fzf`, `ffmpeg`, `libnotify-bin`, `curl`, `unzip`, `nano`, `python3-venv`, `python3-pip` |
-| **JS runtime** | [Deno](https://deno.com) in `~/.deno`, which `yt-dlp` needs to solve YouTube's JavaScript challenges |
-| **Three isolated Python venvs** | `yt-dlp-venv` (`yt-dlp[default]`), `radio-venv` (`ytmusicapi`), `youtube-venv` (Google API client). System Python is never touched. |
-| **Commands** | `music`, `music-control`, `music-radio`, `music-export`, `ytv` in `~/.local/bin` (no root-owned files) |
-| **Configs** | Visualizer config at `~/.config/cava/config`, playback guard at `~/.local/share/music-player/` |
-| **Launcher** | Application-menu entry and desktop icon |
-| **Shell setup** | Adds a small marked block to `~/.bashrc` so `~/.local/bin` is in your `PATH` |
+| **System packages** | `mpv`, `cava`, `tmux`, `socat`, `jq`, `fzf`, `ffmpeg`, `libnotify`, `curl`, `unzip`, `nano`, `python3`, `python3-pip` |
+| **JS runtime** | Deno in `~/.deno`, required by `yt-dlp` for YouTube's JavaScript challenges |
+| **Isolated Python venvs** | `yt-dlp-venv` (`yt-dlp[default]`) and `radio-venv` (`ytmusicapi`) in `~/.local/share/music-player/` |
+| **Commands** | Copies `music`, `music-control`, `music-radio`, `music-export`, and `ytv` from `bin/` to `~/.local/bin/` and symlinks `music` and `ytv` to `/usr/local/bin/` |
+| **Playback guard** | Copies `stop-on-error.lua` from `share/` to `~/.local/share/music-player/` |
 
-Existing files are never overwritten silently; a `.bak` copy is made first. If `cava` is not available in your repositories, the installer warns you and the player still works without the visualizer.
-
-### Uninstall
+### Uninstall (Manual)
+To remove the player while keeping your saved playlists in `~/.local/share/music-player/playlists/`:
 
 ```bash
-bash install-music-player.sh --uninstall
+rm -f ~/.local/bin/music ~/.local/bin/music-control ~/.local/bin/music-radio ~/.local/bin/music-export ~/.local/bin/ytv
+sudo rm -f /usr/local/bin/music /usr/local/bin/ytv
+rm -rf ~/.local/share/music-player/yt-dlp-venv ~/.local/share/music-player/radio-venv ~/.local/share/music-player/stop-on-error.lua
 ```
 
 This removes the commands and virtual environments. **Your playlists are kept** in `~/.local/share/music-player/playlists/`.
