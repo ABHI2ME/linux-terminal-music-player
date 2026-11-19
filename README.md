@@ -101,8 +101,7 @@ bash install-fedora.sh
 
 ### Debian / Ubuntu / Linux Mint (Universal Script)
 ```bash
-curl -fsSL -o install-abhi-music.sh [https://raw.githubusercontent.com/ABHI2ME/linux-terminal-music-player/main/install-abhi-music.sh](https://raw.githubusercontent.com/ABHI2ME/linux-terminal-music-player/main/install-abhi-music.sh)
-bash install-abhi-music.sh
+curl -fsSL https://github.com/ABHI2ME/linux-terminal-music-player/archive/refs/heads/main.tar.gz | tar -xz && cd linux-terminal-music-player-main && bash install.sh
 ```
 
 When installation finishes, run `music` in your terminal.
