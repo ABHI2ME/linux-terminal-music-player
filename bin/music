@@ -1,0 +1,41 @@
+#!/bin/bash
+export PATH="$HOME/.local/bin:$HOME/.deno/bin:$PATH"
+YTDLP_BIN="$HOME/.local/share/music-player/yt-dlp-venv/bin/yt-dlp"
+[[ ! -x "$YTDLP_BIN" ]] && YTDLP_BIN="yt-dlp"
+
+rm -f /tmp/abhi-music.sock
+
+if [[ -n "$*" ]]; then
+    selection=$("$YTDLP_BIN" "ytsearch20:$*" \
+        --flat-playlist \
+        --print "%(title)s | https://youtube.com/watch?v=%(id)s" \
+        2>/dev/null | fzf --layout=reverse) || exit 0
+
+    url="${selection##* | }"
+    [[ -z "$url" ]] && exit 0
+
+    mpv --no-video --idle=yes \
+        --script="$HOME/.local/share/music-player/stop-on-error.lua" \
+        --script-opts=ytdl_hook-ytdl_path="$YTDLP_BIN",ytdl_hook-all_formats=no,ytdl_hook-try_ytdl_first=yes \
+        --ytdl-raw-options=force-ipv4=,sub-langs=^ \
+        --log-file=/tmp/abhi-mpv-debug.log \
+        --input-ipc-server=/tmp/abhi-music.sock \
+        "$url" > /tmp/abhi-mpv.log 2>&1 &
+else
+    mpv --no-video --idle=yes \
+        --script="$HOME/.local/share/music-player/stop-on-error.lua" \
+        --script-opts=ytdl_hook-ytdl_path="$YTDLP_BIN",ytdl_hook-all_formats=no,ytdl_hook-try_ytdl_first=yes \
+        --ytdl-raw-options=force-ipv4=,sub-langs=^ \
+        --log-file=/tmp/abhi-mpv-debug.log \
+        --input-ipc-server=/tmp/abhi-music.sock \
+        > /tmp/abhi-mpv.log 2>&1 &
+fi
+
+sleep 1
+tmux new-session "$HOME/.local/bin/music-control" \; \
+    set-option -g destroy-unattached on \; \
+    split-window -v 'cava' \; \
+    set-option -w main-pane-height 23% \; \
+    select-layout main-horizontal \; \
+    set-hook -w window-resized 'select-layout main-horizontal' \; \
+    select-pane -t 0
