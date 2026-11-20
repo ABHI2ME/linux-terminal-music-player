@@ -144,7 +144,7 @@ sleep 1
 tmux new-session "$HOME/.local/bin/music-control" \; \
     set-option -g destroy-unattached on \; \
     set-option -g mouse on \; \
-    split-window -v 'cava' \; \
+    split-window -v 'TERM=xterm-256color COLORTERM=truecolor cava' \; \
     set-option -w main-pane-height 23% \; \
     select-layout main-horizontal \; \
     set-hook -w window-resized 'select-layout main-horizontal' \; \
@@ -330,6 +330,13 @@ gradient_color_6 = '#cc8033'
 gradient_color_7 = '#cc5933'
 gradient_color_8 = '#cc3333'
 CAVA_EOF
+
+# Enable TrueColor (RGB) passthrough in tmux for smooth cava gradients
+touch "$HOME/.tmux.conf"
+grep -q 'default-terminal "tmux-256color"' "$HOME/.tmux.conf" || \
+    echo 'set -g default-terminal "tmux-256color"' >> "$HOME/.tmux.conf"
+grep -q 'terminal-overrides ",xterm-256color:Tc"' "$HOME/.tmux.conf" || \
+    echo 'set -ga terminal-overrides ",xterm-256color:Tc"' >> "$HOME/.tmux.conf"
 
 # 9. Create global symlinks so everything works immediately in the first terminal session
 [[ -x "$HOME/.deno/bin/deno" ]] && sudo ln -sfn "$HOME/.deno/bin/deno" /usr/local/bin/deno
