@@ -34,6 +34,7 @@ fi
 sleep 1
 tmux new-session "$HOME/.local/bin/music-control" \; \
     set-option -g destroy-unattached on \; \
+    set-option -g mouse on \;
     split-window -v 'cava' \; \
     set-option -w main-pane-height 23% \; \
     select-layout main-horizontal \; \
