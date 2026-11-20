@@ -309,18 +309,14 @@ chmod 755 "$HOME/.local/bin/"*
 cat <<'CAVA_EOF' > "$HOME/.config/cava/config"
 [general]
 framerate = 60
-autosens = 1
-sensitivity = 70
 bars = 0
-bar_width = 2
-bar_spacing = 1
 
 [input]
 method = pulse
 source = auto
 
 [output]
-method = noncurses
+method = ncurses
 
 [color]
 gradient = 1
