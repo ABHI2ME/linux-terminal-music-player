@@ -93,10 +93,7 @@
 Clone the repository and run the Fedora installer as your normal user (`sudo` is only requested for installing `dnf` packages and creating `/usr/local/bin` symlinks):
 
 ```bash
-sudo dnf install -y git
-git clone [https://github.com/ABHI2ME/linux-terminal-music-player.git](https://github.com/ABHI2ME/linux-terminal-music-player.git)
-cd linux-terminal-music-player
-bash install-fedora.sh
+curl -fsSL https://github.com/ABHI2ME/linux-terminal-music-player/archive/refs/heads/main.tar.gz | tar -xz && cd linux-terminal-music-player-main && bash install-fedora.sh
 ```
 
 ### Dedicated Linux Mint / Ubuntu Installer (Recommended for Mint Xfce & Live USB)
