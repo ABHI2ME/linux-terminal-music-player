@@ -96,12 +96,12 @@ Clone the repository and run the Fedora installer as your normal user (`sudo` is
 curl -fsSL https://github.com/ABHI2ME/linux-terminal-music-player/archive/refs/heads/main.tar.gz | tar -xz && cd linux-terminal-music-player-main && bash install-fedora.sh
 ```
 
-### Dedicated Linux Mint / Ubuntu Installer (Recommended for Mint Xfce & Live USB)
+### Dedicated Linux Mint (Recommended for Mint Xfce & Live USB)
 
-Includes Mint/Ubuntu-specific optimizations (`ytdl-headers.lua` for HTTP 403 fixes on `mpv` 0.37, anti-blink UI rendering for Xfce/VTE terminals, Live USB `apt` compatibility, clickable `tmux` panes, and a `noncurses` green-to-red `cava` visualizer):
+Includes Mint-specific optimizations (`ytdl-headers.lua` for HTTP 403 fixes on `mpv` 0.37, anti-blink UI rendering for Xfce/VTE terminals, Live USB `apt` compatibility, clickable `tmux` panes, and a `noncurses` green-to-red `cava` visualizer):
 
 ```bash
-curl -fsSL [https://github.com/ABHI2ME/linux-terminal-music-player/archive/refs/heads/main.tar.gz](https://github.com/ABHI2ME/linux-terminal-music-player/archive/refs/heads/main.tar.gz) | tar -xz && cd linux-terminal-music-player-main && bash mint-installer.sh
+curl -fsSL https://github.com/ABHI2ME/linux-terminal-music-player/archive/refs/heads/main.tar.gz | tar -xz && cd linux-terminal-music-player-main && bash mint-installer.sh
 ```
 
 ### Debian / Ubuntu / Linux Mint (Universal Script)
